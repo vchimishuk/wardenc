@@ -1,0 +1,29 @@
+pkgname=wardenc
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Warden client."
+arch=('any')
+url="https://github.com/vchimishuk/wardenc"
+license=('GPL3')
+depends=('curl')
+makedepends=('git')
+source=("git+https://github.com/vchimishuk/wardenc")
+md5sums=('SKIP')
+
+prepare() {
+    cd "${srcdir}/${pkgname}"
+    # git checkout -q "v${pkgver}"
+}
+
+package() {
+    cd "${srcdir}/${pkgname}"
+
+    install -d "${pkgdir}/etc"
+    install -m 644 etc/wardenc.conf "${pkgdir}/etc"
+    install -d "${pkgdir}/usr/bin"
+    install -m 755 bin/wardenc "${pkgdir}/usr/bin"
+    install -d "${pkgdir}/etc/cron.d"
+    install -m 644 cron.d/wardenc "${pkgdir}/etc/cron.d"
+    install -d "${pkgdir}/usr/share/doc/wardenc"
+    install -m 644 COPYING README "${pkgdir}/usr/share/doc/wardenc"
+}
